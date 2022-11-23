@@ -1,20 +1,5 @@
 version: "3"
 services:
-  db:
-    image: postgres
-    restart: always
-    container_name: postgres
-    ports:
-      - 5432:5432
-    expose:
-      - 5432
-    environment:
-      - POSTGRES_DB=meetnet
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-
   frontend:
     container_name: frontend
     image: frontend
@@ -28,24 +13,3 @@ services:
       - NEXT_PUBLIC_MAIN_URL=https://meetnet.net
     ports:
       - "3000:3000"
-
-  nginx:
-    container_name: nginx
-    restart: always
-    image: nginx:latest
-    ports:
-      - 80:80
-      - 443:443
-    volumes:
-      - ./nginx/conf/:/etc/nginx/conf.d/:ro
-      - ./certbot/www:/var/www/certbot/:ro
-      - ./certbot/conf/:/etc/nginx/ssl/:ro
-
-  certbot:
-    image: certbot/certbot:latest
-    volumes:
-      - ./certbot/www/:/var/www/certbot/:rw
-      - ./certbot/conf/:/etc/letsencrypt/:rw
-
-volumes:
-  pgdata:
