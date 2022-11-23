@@ -6,13 +6,13 @@ services:
     build:
       context: "./frontend"
       dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
     expose:
       - 3000
     environment:
       - APP_ENV=production
-      - NEXT_PUBLIC_MAIN_URL=https://meetnet.net
-    ports:
-      - "3000:3000"
+      - NEXT_PUBLIC_MAIN_URL=https://meetnet.online
 
   nginx:
     container_name: nginx
@@ -26,7 +26,7 @@ services:
       - ./certbot/www:/var/www/certbot/:ro
       - ./certbot/conf/:/etc/nginx/ssl/:ro
     depends_on:
-      - backend
+      - frontend
 
   certbot:
     image: certbot/certbot:latest
